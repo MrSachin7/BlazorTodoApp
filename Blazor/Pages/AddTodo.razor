@@ -1,16 +1,18 @@
 ﻿@page "/AddTodo"
 @using Domain.Models
 @using Domain.Contracts
+@using UIElements
+
 @inject ITodoHome TodoHome
 @inject NavigationManager NavMgr
-<h3>AddTodo</h3>
 <div class="box">
-    <EditForm Model="@newTodoItem" OnValidSubmit="@addNewTodo">
+    <h3>AddTodo</h3>
+    <EditForm Model="@newTodoItem" OnValidSubmit="@AddNewTodo">
         <DataAnnotationsValidator/>
         <ValidationSummary/>
         <div class="form-group field">
             <span>
-                <label> User Id :</label>
+                <label>User Id:</label>
             </span>
             <span>
                 <InputNumber @bind-Value="newTodoItem.OwnerId"/>
@@ -18,33 +20,54 @@
         </div>
         <div class="form-group field">
             <span>
-                <label> Title:</label>
+                <label>Title:</label>
             </span>
             <span>
                 <InputTextArea rows="4" @bind-Value="newTodoItem.Title"/>
             </span>
         </div>
         <p class="actions">
-            <button class="btn btn-outline-dark acceptbtn" type="submit"> Create</button>
+            <button class="acceptbtn" type="submit">Create</button>
         </p>
     </EditForm>
-    <label> @errorLabel</label>
+    @if (!string.IsNullOrEmpty(errorLabel))
+    {
+        <label>@errorLabel</label>
+    }
+    @if (showModal)
+    {
+        <Modal>
+            <p>You have successfully added a new Todo item. You should be very proud of yourself</p>
+            <button class="btn btn-outline-dark" @onclick="@Proceed">Wonderful</button>
+        </Modal>
+    }
 </div>
 
-
 @code {
-    private Todo newTodoItem = new Todo();
-    private string errorLabel;
 
-    private async Task addNewTodo() {
+    private Todo newTodoItem = new Todo();
+    private string errorLabel = string.Empty;
+
+    private bool showModal;
+
+    private async Task AddNewTodo()
+    {
         errorLabel = "";
-        try {
+        try
+        {
             await TodoHome.AddAsync(newTodoItem);
+            showModal = true;
+            newTodoItem = new Todo();
         }
-        catch (Exception e) {
+        catch (Exception e)
+        {
             errorLabel = e.Message;
-            return;
         }
+    }
+
+    private void Proceed()
+    {
+        showModal = false;
         NavMgr.NavigateTo("/Todos");
     }
 

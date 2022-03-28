@@ -5,6 +5,7 @@ namespace FileData.DataAccess;
 
 public class TodoFileDAO: ITodoHome {
     private FileContext fileContext;
+    
 
     public TodoFileDAO(FileContext fileContext) {
         this.fileContext = fileContext;
@@ -28,7 +29,7 @@ public class TodoFileDAO: ITodoHome {
         return todo;  
     }
 
-    public  Task DeleteAsync(int id) {
+    public Task DeleteAsync(int id) {
         Todo todelete = fileContext.Todos.First(todo => todo.Id == id);
         fileContext.Todos.Remove(todelete);
         fileContext.SaveChanges();
@@ -42,6 +43,5 @@ public class TodoFileDAO: ITodoHome {
         toUpdate.Title = todo.Title;
         fileContext.SaveChanges();
         return Task.CompletedTask;
-
     }
 }

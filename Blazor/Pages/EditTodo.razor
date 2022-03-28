@@ -44,8 +44,7 @@
     private Todo todoToEdit;
     private string errorLabel = String.Empty;
     
-    protected override async Task OnInitializedAsync()
-    {
+    protected override async Task OnInitializedAsync() {
         todoToEdit = await todoHome.GetById(Id);
     }
 
