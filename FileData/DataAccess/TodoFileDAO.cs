@@ -29,19 +29,19 @@ public class TodoFileDAO: ITodoHome {
         return todo;  
     }
 
-    public Task DeleteAsync(int id) {
+    public async Task<Todo> DeleteAsync(int id) {
         Todo todelete = fileContext.Todos.First(todo => todo.Id == id);
         fileContext.Todos.Remove(todelete);
         fileContext.SaveChanges();
-        return Task.CompletedTask;
+        return todelete;
     }
 
-    public Task UpdateAsync(Todo todo) {
+    public async Task<Todo> UpdateAsync(Todo todo) {
         Todo toUpdate = fileContext.Todos.First(t => t.Id == todo.Id);
         toUpdate.IsCompleted = todo.IsCompleted;
         toUpdate.OwnerId = todo.OwnerId;
         toUpdate.Title = todo.Title;
         fileContext.SaveChanges();
-        return Task.CompletedTask;
+        return toUpdate;
     }
 }

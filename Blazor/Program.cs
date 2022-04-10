@@ -1,14 +1,15 @@
 
+
+
 using Domain.Contracts;
-using FileData.DataAccess;
+using HttpServices.TodoClients;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddScoped<FileContext>();
-builder.Services.AddScoped<ITodoHome, TodoFileDAO>();
+builder.Services.AddScoped<ITodoHome, TodoHttpClient>();
 
 var app = builder.Build();
 

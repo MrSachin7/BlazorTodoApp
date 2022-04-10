@@ -5,15 +5,16 @@ using Microsoft.AspNetCore.Mvc;
 namespace WebAPI.Controllers;
 
 [ApiController]
-[Route("[controller]")]
-public class TodoController : ControllerBase {
+[Route("todos")]
+public class TodosController : ControllerBase {
     private ITodoHome todoHome;
 
-    public TodoController(ITodoHome todoHome) {
+    public TodosController(ITodoHome todoHome) {
         this.todoHome = todoHome;
     }
 
     [HttpGet]
+    // [Route("todos")]
     public async Task<ActionResult<ICollection<Todo>>> GetAll([FromQuery] int? OwnerId, [FromQuery] bool? isCompleted) {
         try {
             ICollection<Todo> todos = await todoHome.GetAsync();
@@ -25,7 +26,7 @@ public class TodoController : ControllerBase {
                 return Ok(todos.Where(todo => todo.IsCompleted == isCompleted));
             }
 
-            if (isCompleted==null) {
+            if (isCompleted == null) {
                 return Ok(todos.Where(todo => todo.OwnerId == OwnerId));
             }
 
@@ -37,6 +38,7 @@ public class TodoController : ControllerBase {
     }
 
     [HttpPost]
+    // [Route("/todos")]
     public async Task<ActionResult<Todo>> AddTodo([FromBody] Todo todo) {
         try {
             Todo added = await todoHome.AddAsync(todo);
@@ -48,7 +50,7 @@ public class TodoController : ControllerBase {
     }
 
     [HttpGet]
-    [Route("/{id:int}")]
+    [Route("{id:int}")]
     public async Task<ActionResult<Todo>> GetById([FromRoute] int id) {
         try {
             Todo fromServer = await todoHome.GetById(id);
@@ -60,6 +62,7 @@ public class TodoController : ControllerBase {
     }
 
     [HttpPatch]
+    // [Route("/todos")]
     public async Task<ActionResult<Todo>> Update([FromBody] Todo todo) {
         try {
             await todoHome.UpdateAsync(todo);
@@ -70,4 +73,17 @@ public class TodoController : ControllerBase {
             return StatusCode(500, e.Message);
         }
     }
+
+    [HttpDelete]
+    [Route("{id:int}")]
+    public async Task<ActionResult<Todo>> Delete([FromRoute] int id) {
+        try {
+            Todo todo = await todoHome.DeleteAsync(id);
+            return Ok(todo);
+        }
+        catch (Exception e) {
+            return StatusCode(500, e.Message);
+        }
+    }
+
 }

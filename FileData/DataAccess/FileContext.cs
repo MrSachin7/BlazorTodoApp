@@ -48,7 +48,9 @@ public class FileContext {
     }
 
     public void SaveChanges() {
-        string serialize = JsonSerializer.Serialize(Todos);
+        string serialize = JsonSerializer.Serialize(Todos, new JsonSerializerOptions() {
+            WriteIndented = true
+        });
         File.WriteAllText(todoFilePath,serialize);
         todos = null;
     }

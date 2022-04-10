@@ -1,1 +1,20 @@
-[{"Id":1,"OwnerId":1,"Title":"Dishes","IsCompleted":false},{"Id":1,"OwnerId":1,"Title":"Walk the dog","IsCompleted":false},{"Id":3,"OwnerId":2,"Title":"Do DNP homework","IsCompleted":false},{"Id":4,"OwnerId":3,"Title":"Eat breakfast","IsCompleted":false},{"Id":5,"OwnerId":1,"Title":"Testing queries","IsCompleted":true},{"Id":6,"OwnerId":2,"Title":"Test Endpoint","IsCompleted":false}]
+[
+  {
+    "Id": 5,
+    "OwnerId": 1,
+    "Title": "Testing queries",
+    "IsCompleted": true
+  },
+  {
+    "Id": 6,
+    "OwnerId": 2,
+    "Title": "Test Endpoint",
+    "IsCompleted": true
+  },
+  {
+    "Id": 7,
+    "OwnerId": 4,
+    "Title": "hello there",
+    "IsCompleted": false
+  }
+]
