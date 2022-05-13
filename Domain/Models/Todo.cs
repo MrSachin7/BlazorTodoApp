@@ -3,6 +3,7 @@
 namespace Domain.Models;
 
 public class Todo {
+    [Key]
     public int Id { get; set; }
 
     [Range(1, int.MaxValue, ErrorMessage = "Please enter a value bigger than {1}")]

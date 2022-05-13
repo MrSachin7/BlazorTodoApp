@@ -3,7 +3,8 @@
 namespace Domain.Contracts; 
 
 public interface ITodoHome {
-    public Task<ICollection<Todo>> GetAsync();
+    public Task<ICollection<Todo>> GetAsync(TodoFilter? filter);
+
     public Task<Todo> GetById(int id);
     public Task<Todo> AddAsync(Todo todo);
     public Task<Todo> DeleteAsync(int id);

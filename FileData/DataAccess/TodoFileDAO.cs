@@ -11,7 +11,7 @@ public class TodoFileDAO: ITodoHome {
         this.fileContext = fileContext;
     }
 
-    public async Task<ICollection<Todo>> GetAsync() {
+    public async Task<ICollection<Todo>> GetAsync(TodoFilter? filter) {
         ICollection<Todo> todos = fileContext.Todos;
         return todos;
     }

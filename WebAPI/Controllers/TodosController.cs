@@ -1,5 +1,6 @@
 ﻿using Domain.Contracts;
 using Domain.Models;
+using FileData.DataAccess;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers;
@@ -17,20 +18,12 @@ public class TodosController : ControllerBase {
     // [Route("todos")]
     public async Task<ActionResult<ICollection<Todo>>> GetAll([FromQuery] int? OwnerId, [FromQuery] bool? isCompleted) {
         try {
-            ICollection<Todo> todos = await todoHome.GetAsync();
-            if (OwnerId == null && isCompleted == null) {
-                return Ok(todos);
-            }
-
-            if (OwnerId == null) {
-                return Ok(todos.Where(todo => todo.IsCompleted == isCompleted));
-            }
-
-            if (isCompleted == null) {
-                return Ok(todos.Where(todo => todo.OwnerId == OwnerId));
-            }
-
-            return Ok(todos.Where(todo => todo.IsCompleted == isCompleted && todo.OwnerId == OwnerId));
+            TodoFilter filter = new TodoFilter() {
+                UserId = OwnerId,
+                IsCompleted = isCompleted
+            };
+            ICollection<Todo> todos = await todoHome.GetAsync(filter);
+            return Ok(todos);
         }
         catch (Exception e) {
             return StatusCode(500, e.Message);

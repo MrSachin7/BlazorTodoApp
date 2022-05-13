@@ -9,9 +9,12 @@ using Domain.Models;
 namespace HttpServices.TodoClients;
 
 public class TodoHttpClient : ITodoHome {
-    public async Task<ICollection<Todo>> GetAsync() {
+    public async Task<ICollection<Todo>> GetAsync(TodoFilter? filter) {
+        if (filter is null) {
+            filter = new TodoFilter();
+        }
         using HttpClient client = new();
-        HttpResponseMessage responseMessage = await client.GetAsync("https://localhost:7162/todos");
+        HttpResponseMessage responseMessage = await client.GetAsync($"https://localhost:7162/todos?OwnerId={filter.UserId}&isCompleted={filter.IsCompleted}");
         string content = await responseMessage.Content.ReadAsStringAsync();
         if (!responseMessage.IsSuccessStatusCode) {
             throw new Exception($"Error : {responseMessage.StatusCode}");

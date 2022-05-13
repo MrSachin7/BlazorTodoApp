@@ -97,7 +97,7 @@ else {
     private bool doShowFilters;
 
     protected override async Task OnInitializedAsync() {
-        allTodos = await TodoHome.GetAsync();
+        allTodos = await TodoHome.GetAsync(null);
         todosToShow = allTodos;
     }
 
